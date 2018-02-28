@@ -5,33 +5,32 @@
 
 class DynamicArray {
 public:
-    DynamicArray(int size = 10, int n = 0, int reserve = 10);
-	int& operator[](int);
-    DynamicArray(DynamicArray&&);
-    DynamicArray(const DynamicArray&);
+    DynamicArray(int size = 10, int n = 0, int reserve = 10); //tested
+	int& operator[](int); //tested
+    DynamicArray(DynamicArray&&); //tested
+    DynamicArray(const DynamicArray&); //tested
     ~DynamicArray();
-    int getLength()const;
-	void reserve(int);    
-    DynamicArray&operator=(const DynamicArray&);
-    DynamicArray&operator=(DynamicArray&&);
-    void resize(int);
-	int capacity();
-    friend const bool operator == (const DynamicArray &, const DynamicArray &);
-    friend const bool operator != (const DynamicArray &, const DynamicArray &);
-    friend const bool operator < (const DynamicArray &, const DynamicArray &);
-    friend const bool operator <= (const DynamicArray &, const DynamicArray &);
-    friend const bool operator > (const DynamicArray &, const DynamicArray &);
-    friend const bool operator >= (const DynamicArray &, const DynamicArray &);
-    friend DynamicArray& operator+ (const DynamicArray&, const DynamicArray&);
-    friend std::ostream& operator<<(std::ostream&, const DynamicArray&);
-    friend std::istream& operator>>(std::istream&, const DynamicArray&);
-	void pushBack(int);
-	int popBack();
+    int getLength()const; //tested
+	void reserve(int); //tested   
+    DynamicArray&operator=(const DynamicArray&); //tested
+    DynamicArray&operator=(DynamicArray&&); //tested
+    void resize(int); //tested
+	int capacity(); //tested
+    friend const bool operator == (const DynamicArray &, const DynamicArray &); //tested
+    friend const bool operator != (const DynamicArray &, const DynamicArray &); //tested
+    friend const bool operator < (const DynamicArray &, const DynamicArray &); //tested
+    friend const bool operator <= (const DynamicArray &, const DynamicArray &); //tested
+    friend const bool operator > (const DynamicArray &, const DynamicArray &); //tested
+    friend const bool operator >= (const DynamicArray &, const DynamicArray &); //tested
+    friend DynamicArray& operator+ (const DynamicArray&, const DynamicArray&); //tested
+    friend std::ostream& operator<<(std::ostream&, const DynamicArray&); //tested
+    friend std::istream& operator>>(std::istream&, const DynamicArray&); //tested
+	void pushBack(int); //tested
+	int popBack(); //tested
 private:
     int* array;
     int length;
     int realLength;
-    void destroy();
 };
 
 

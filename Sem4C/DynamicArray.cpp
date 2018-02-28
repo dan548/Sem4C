@@ -62,11 +62,13 @@ DynamicArray::DynamicArray(const DynamicArray& dA)
         ,array(nullptr)
 {
     array = new int[realLength];
-	memcpy(array, dA.array, sizeof(dA.array));
+	for (int i = 0; i < length; i++) {
+		array[i] = dA.array[i];
+	}
 }
 
 DynamicArray::~DynamicArray() {
-    destroy();
+	delete[] array;
 }
 
 int DynamicArray::getLength()const {
@@ -85,17 +87,17 @@ void DynamicArray::reserve(int n)
 }
 
 DynamicArray& DynamicArray::operator=(const DynamicArray& dA) {
-    destroy();
     length = dA.length;
     realLength = dA.realLength;
     array = new int[realLength];
-	memcpy(array, dA.array, sizeof(dA.array));
+	for (int i = 0; i < length; i++) {
+		array[i] = dA.array[i];
+	}
     return *this;
 }
 
 DynamicArray& DynamicArray::operator=(DynamicArray&& dA) {
 	if (this != &dA) {
-		destroy();
 		length = dA.length;
 		realLength = dA.realLength;
 		array = dA.array;
@@ -119,10 +121,6 @@ int DynamicArray::popBack()
 {
 	length--;
 	return array[length];
-}
-
-void DynamicArray::destroy() {
-    delete[] array;
 }
 
 const bool operator==(const DynamicArray &dA1, const DynamicArray &dA2)
@@ -164,12 +162,12 @@ const bool operator>=(const DynamicArray &dA1, const DynamicArray &dA2) {
 }
 
 DynamicArray &operator+(const DynamicArray &dA1, const DynamicArray &dA2) {
-    DynamicArray* resArray = new DynamicArray(dA1.getLength() + dA2.getLength());
+    DynamicArray* resArray = new DynamicArray(0, 0, dA1.getLength() + dA2.getLength());
     for (int i = 0; i < dA1.getLength(); i++) {
-        resArray[i] = dA1.array[i];
+        resArray->pushBack(dA1.array[i]);
     }
     for (int i = 0; i < dA2.getLength(); i++) {
-        resArray[dA1.getLength() + i] = dA2.array[i];
+		resArray->pushBack(dA2.array[i]);
     }
     return *resArray;
 }
