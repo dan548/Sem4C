@@ -53,7 +53,7 @@ inline int RingBuffer::peek()
 	}
 }
 
-inline int RingBuffer::getSize()
+int RingBuffer::getSize()
 {
 	return size;
 }

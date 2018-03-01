@@ -7,7 +7,7 @@ public:
 	void add(int);
 	int poll();
 	inline int peek();
-	inline int getSize();
+	int getSize();
 	void makeEmpty();
 	inline bool isEmpty();
 private:

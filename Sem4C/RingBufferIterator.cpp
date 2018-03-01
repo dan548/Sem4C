@@ -2,8 +2,10 @@
 #include "RingBufferIterator.h"
 
 
-RingBufferIterator::RingBufferIterator()
+RingBufferIterator::RingBufferIterator(RingBuffer* ringBuffer):
+	queue(ringBuffer)
 {
+	current = -1;
 }
 
 
@@ -13,18 +15,24 @@ RingBufferIterator::~RingBufferIterator()
 
 void RingBufferIterator::start()
 {
+	if (current == -1) {
+		current = 0;
+	}
 }
 
 void RingBufferIterator::next()
 {
+	if (current >= 0 || current < queue->getSize()) current++;
 }
 
 bool RingBufferIterator::finish()
 {
-	return false;
+	return current == queue->getSize();
 }
 
 int RingBufferIterator::getValue()
 {
-	return 0;
+	int res = queue->poll();
+	queue->add(res);
+	return res;
 }
