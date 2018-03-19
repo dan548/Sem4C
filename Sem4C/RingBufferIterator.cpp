@@ -1,36 +1,40 @@
 #include "stdafx.h"
 #include "RingBufferIterator.h"
 
-
-RingBufferIterator::RingBufferIterator(RingBuffer* ringBuffer):
+template <typename T>
+RingBufferIterator<T>::RingBufferIterator(RingBuffer* ringBuffer):
 	queue(ringBuffer)
 {
 	current = -1;
 }
 
-
-RingBufferIterator::~RingBufferIterator()
+template <typename T>
+RingBufferIterator<T>::~RingBufferIterator()
 {
 }
 
-void RingBufferIterator::start()
+template <typename T>
+void RingBufferIterator<T>::start()
 {
 	if (current == -1) {
 		current = 0;
 	}
 }
 
-void RingBufferIterator::next()
+template <typename T>
+void RingBufferIterator<T>::next()
 {
 	if (current >= 0 || current < queue->getSize()) current++;
 }
 
-bool RingBufferIterator::finish()
+template <typename T>
+bool RingBufferIterator<T>::finish()
 {
 	return current == queue->getSize();
 }
 
-int RingBufferIterator::getValue()
+template <typename T>
+T RingBufferIterator<T>::getValue()
 {
 	int res = queue->poll();
 	queue->add(res);

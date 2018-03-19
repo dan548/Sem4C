@@ -23,7 +23,7 @@
     <ProjectGuid>{E3AE2FC0-E231-41AE-8753-314491501410}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Sem4C</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -149,14 +149,11 @@
   <ItemGroup>
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="RingBuffer.h" />
-    <ClInclude Include="RingBufferIterator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DynamicArray.cpp" />
-    <ClCompile Include="RingBuffer.cpp" />
-    <ClCompile Include="RingBufferIterator.cpp" />
     <ClCompile Include="Sem4C.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

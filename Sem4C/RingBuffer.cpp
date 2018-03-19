@@ -1,8 +1,8 @@
-#include "stdafx.h"
+/*#include "stdafx.h"
 #include "RingBuffer.h"
 
-
-RingBuffer::RingBuffer(int buf):
+template <typename T>
+RingBuffer<T>::RingBuffer(int buf):
 	buffer(nullptr),
 	bufSize(buf)
 {
@@ -11,13 +11,14 @@ RingBuffer::RingBuffer(int buf):
 	start = 0;
 }
 
-
-RingBuffer::~RingBuffer()
+template <typename T>
+RingBuffer<T>::~RingBuffer()
 {
 	delete[] buffer;
 }
 
-void RingBuffer::add(int x)
+template <typename T>
+void RingBuffer<T>::add(T x)
 {
 	if (size < bufSize) {
 		buffer[(start + size) % bufSize] = x;
@@ -27,7 +28,8 @@ void RingBuffer::add(int x)
 	}
 }
 
-int RingBuffer::poll()
+template <typename T>
+T RingBuffer<T>::poll()
 {
 	if (!isEmpty()) {
 		size--;
@@ -43,7 +45,8 @@ int RingBuffer::poll()
 	}
 }
 
-inline int RingBuffer::peek()
+template <typename T>
+inline T RingBuffer<T>::peek()
 {
 	if (!isEmpty()) {
 		return buffer[start];
@@ -53,18 +56,22 @@ inline int RingBuffer::peek()
 	}
 }
 
-int RingBuffer::getSize()
+template <typename T>
+int RingBuffer<T>::getSize()
 {
 	return size;
 }
 
-void RingBuffer::makeEmpty()
+template <typename T>
+void RingBuffer<T>::makeEmpty()
 {
 	size = 0;
 	start = 0;
 }
 
-inline bool RingBuffer::isEmpty()
+template <typename T>
+inline bool RingBuffer<T>::isEmpty()
 {
 	return size == 0;
 }
+*/

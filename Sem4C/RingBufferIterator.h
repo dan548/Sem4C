@@ -1,5 +1,6 @@
 #pragma once
 #include "RingBuffer.h"
+template <typename T>
 class RingBufferIterator
 {
 public:
@@ -8,7 +9,7 @@ public:
 	void start();
 	void next();
 	bool finish();
-	int getValue();
+	T getValue();
 private:
 	RingBuffer* queue;
 	int current;
