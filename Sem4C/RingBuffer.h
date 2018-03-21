@@ -15,6 +15,7 @@ public:
 		~Iterator() {
 			current = -1;
 			queue = nullptr;
+			count = 0;
 		}
 		void start() {
 			current = queue->start;
