@@ -7,7 +7,7 @@ public:
 	virtual void start() = 0;
 	virtual T get() = 0;
 	virtual void next() = 0;
-	virtual bool isFinish() = 0;
+	virtual bool isFinished() = 0;
 protected:
 	AbstractList* list;
 };
