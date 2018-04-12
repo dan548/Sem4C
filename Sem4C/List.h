@@ -10,26 +10,29 @@ struct Node {
 };
 
 template <typename T>
-class List : public AbstractList
+class List : public AbstractList<T>
 {
 public:
-	class ListIterator : public AbstractIterator {
-		ListIterator(List &inputList) :list(&inputList) {}
+	class ListIterator : public AbstractIterator<T> {
+	public:
+		ListIterator(List* inputList) :list(inputList) {}
 		void start() {
-			
+			list->current = list->buffer->next;
 		}
 		T get() {
-
+			return list->current->value;
 		}
 		void next() {
-
+			list->current = list->current->next;
 		}
 		void previous() {
-
+			list->current = list->current->prev;
 		}
 		bool isFinished() {
-
+			return list->current == list->buffer;
 		}
+	private:
+		List* list;
 	};
 
 	List() {
@@ -43,7 +46,8 @@ public:
 	}
 
 	~List() {
-		
+		delete buffer;
+		delete current;
 	}
 
 	void add(T elem) {
@@ -89,23 +93,29 @@ public:
 		}
 	}
 
-	int length() {
+	int getLength() {
 		return length;
 	}
 
-	AbstractIterator* findFirst(T elem) {
-
+	ListIterator* findFirst(T elem) {
+		ListIterator* listIter = iterator();
+		listIter->start();
+		while (!listIter->isFinished()) {
+			if (listIter->get() == elem) return listIter;
+		}
+		return nullptr;
 	}
 
-	AbstractIterator* iterator() {
-
+	ListIterator* iterator() {
+		ListIterator* listIter = new ListIterator(this);
+		return listIter;
 	}
 
 	bool isEmpty() {
 		return length == 0;
 	}
 private:
-	Node* buffer;
-	Node* current;
+	Node<T>* buffer;
+	Node<T>* current;
 	int length;
 };

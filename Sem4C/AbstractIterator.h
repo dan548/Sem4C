@@ -8,6 +8,4 @@ public:
 	virtual T get() = 0;
 	virtual void next() = 0;
 	virtual bool isFinished() = 0;
-protected:
-	AbstractList* list;
 };
