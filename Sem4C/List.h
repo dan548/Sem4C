@@ -18,21 +18,28 @@ public:
 		ListIterator(List* inputList) :list(inputList) {}
 		void start() {
 			list->current = list->buffer->next;
+			count = 0;
 		}
 		T get() {
 			return list->current->value;
 		}
 		void next() {
 			list->current = list->current->next;
+			if (isFinished()) count = 1;
+			else count++;
 		}
 		void previous() {
 			list->current = list->current->prev;
+			if (count == 0) count = list->getLength() - 1;
+			else count--;
+
 		}
 		bool isFinished() {
-			return list->current == list->buffer;
+			return count == list->getLength();
 		}
 	private:
 		List* list;
+		int count;
 	};
 
 	List() {
@@ -47,7 +54,6 @@ public:
 
 	~List() {
 		delete buffer;
-		delete current;
 	}
 
 	void add(T elem) {
@@ -74,23 +80,23 @@ public:
 	}
 
 	T remove() {
-		Node<T> *tmp = current;
-		current = tmp->prev;
-		tmp->next->prev = current;
-		T res = tmp->value;
-		delete tmp;
-		length--;
-		return res;
+		//переделать
+		if (getLength() > 0) {
+			Node<T> *tmp = current;
+			current = tmp->prev;
+			tmp->next->prev = current;
+			T res = tmp->value;
+			delete tmp;
+			length--;
+			return res;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	void makeEmpty() {
-		Node<T> *first = buffer->next;
-		while (!isEmpty()) {
-			Node<T> *tmp = first->next;
-			delete first;
-			first = tmp;
-			length--;
-		}
+		//
 	}
 
 	int getLength() {
@@ -101,7 +107,12 @@ public:
 		ListIterator* listIter = iterator();
 		listIter->start();
 		while (!listIter->isFinished()) {
-			if (listIter->get() == elem) return listIter;
+			if (listIter->get() == elem) {
+				return listIter;
+			}
+			else {
+				listIter->next();
+			}
 		}
 		return nullptr;
 	}
