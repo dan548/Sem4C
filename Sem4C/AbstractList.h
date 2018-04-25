@@ -1,5 +1,13 @@
 #pragma once
 #include "AbstractIterator.h"
+
+struct EmptyListException {
+	std::string message;
+	EmptyListException(const char* cMessage) {
+		message = cMessage;
+	}
+};
+
 template <typename T>
 class AbstractList
 {

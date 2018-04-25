@@ -17,29 +17,42 @@ public:
 	public:
 		ListIterator(List* inputList) :list(inputList) {}
 		void start() {
-			list->current = list->buffer->next;
-			count = 0;
+			if (!list->isEmpty()) list->current = list->buffer->next;
+			else {
+				throw EmptyListException("The list is empty.");
+			}
+			forward = true;
 		}
 		T get() {
-			return list->current->value;
+			if (!list->isEmpty()) {
+				if (list->current == list->buffer) {
+					if (forward) {
+						list->current = list->buffer->next;
+					}
+					else {
+						list->current = list->buffer->prev;
+					}
+				}
+				return list->current->value;
+			}
+			else {
+				throw EmptyListException("The list is empty.");
+			}
 		}
 		void next() {
 			list->current = list->current->next;
-			if (isFinished()) count = 1;
-			else count++;
+			if (list->current == list->buffer && !forward) forward = true;
 		}
 		void previous() {
 			list->current = list->current->prev;
-			if (count == 0) count = list->getLength() - 1;
-			else count--;
-
+			if (list->current == buffer) forward = false;
 		}
 		bool isFinished() {
-			return count == list->getLength();
+			return list->current == list->buffer;
 		}
 	private:
 		List* list;
-		int count;
+		bool forward;
 	};
 
 	List() {
@@ -66,37 +79,33 @@ public:
 			buffer->prev = tmp;
 		}
 		else {
-			if (current->next != buffer) {
-				tmp->next = current->next;
-			}
-			else {
-				tmp->next = current->next->next;
-			}
-			tmp->next->prev = tmp;
+			tmp->next = current->next;
 			current->next = tmp;
+			tmp->next->prev = tmp;
 		}
-		current = tmp;
 		length++;
+		current = tmp;
 	}
 
 	T remove() {
-		//переделать
-		if (getLength() > 0) {
+		if (!isEmpty()) {
 			Node<T> *tmp = current;
 			current = tmp->prev;
-			tmp->next->prev = current;
-			T res = tmp->value;
+			current->next = tmp->next;
+			current->next->prev = current;
 			delete tmp;
 			length--;
-			return res;
 		}
 		else {
-			return 0;
+			throw EmptyListException("The list is empty.");
 		}
 	}
 
 	void makeEmpty() {
-		//
+		current = buffer->prev;
+		while (!isEmpty()) {
+			remove();
+		}
 	}
 
 	int getLength() {
