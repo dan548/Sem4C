@@ -50,6 +50,9 @@ public:
 		bool isFinished() {
 			return list->current == list->buffer;
 		}
+		void operator++(int) {
+			next();
+		}
 	private:
 		List* list;
 		bool forward;
@@ -65,7 +68,36 @@ public:
 		current = buffer;
 	}
 
+	List(const List& list)
+		:buffer(nullptr),
+		current(nullptr),
+		length(0)
+	{
+		Node<T> *tmp = new Node<T>;
+		tmp->value = 0;
+		tmp->next = nullptr;
+		tmp->prev = nullptr;
+		buffer = tmp;
+		current = buffer;
+		tmp = list.buffer->next;
+		while (tmp != list.buffer) {
+			add(tmp->value);
+			tmp = tmp->next;
+		}
+	}
+
+	List(List&& list)
+		:buffer(list.buffer),
+		current(list.current),
+		length(list.length)
+	{
+		list.buffer = nullptr;
+		list.current = nullptr;
+		list.length = 0;
+	}
+
 	~List() {
+		makeEmpty();
 		delete buffer;
 	}
 
