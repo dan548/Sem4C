@@ -50,9 +50,6 @@ public:
 		bool isFinished() {
 			return list->current == list->buffer;
 		}
-		void operator++(int) {
-			next();
-		}
 	private:
 		List* list;
 		bool forward;
@@ -101,6 +98,28 @@ public:
 		delete buffer;
 	}
 
+	List& operator= (const List& input) {
+		if (input.buffer != this->buffer) {
+			makeEmpty();
+			Node<T> *tmp = input.buffer->next;
+			while (tmp != input.buffer) {
+				add(tmp->value);
+				tmp = tmp->next;
+			}
+		}
+		return *this;
+	}
+
+	List& operator= (List&& input) {
+		if (input.buffer != this->buffer) {
+			makeEmpty();
+			buffer = input.buffer;
+			current = input.current;
+			length = input.length;
+		}
+		return *this;
+	}
+
 	void add(T elem) {
 		Node<T> *tmp = new Node<T>;
 		tmp->prev = current;
@@ -122,11 +141,13 @@ public:
 	T remove() {
 		if (!isEmpty()) {
 			Node<T> *tmp = current;
+			T res = tmp->value;
 			current = tmp->prev;
 			current->next = tmp->next;
 			current->next->prev = current;
 			delete tmp;
 			length--;
+			return res;
 		}
 		else {
 			throw EmptyListException("The list is empty.");
