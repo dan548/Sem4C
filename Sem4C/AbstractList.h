@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractIterator.h"
+#include "stdafx.h"
 
 struct EmptyListException {
 	std::string message;
