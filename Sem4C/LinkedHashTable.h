@@ -13,15 +13,18 @@ private:
 	class LinkedHashEntry {
 	private:
 		size_t length;
-		Node<T>* current;
+		Node<T>* start;
 	public:
-		LinkedHashEntry() {
-			table = new LinkedHashEntry*[SIZE];
+		LinkedHashEntry(T value) {
+			length = 1;
+			Node<T> *tmp = new Node<T>(value);
+			start = tmp;
 		}
 	};
-	LinkedHashEntry* *table;
+	LinkedHashEntry** table;
+
 public:
 	LinkedHashTable() {
-
+		table = new LinkedHashEntry*[SIZE];
 	}
 };
