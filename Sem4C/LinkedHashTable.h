@@ -1,30 +1,56 @@
 #pragma once
-const int SIZE = 16;
-template <typename T>
+const int SIZE = 17;
+template <typename K, typename V>
 class LinkedHashTable {
 private:
-	template <typename T>
+	template <typename K, typename V>
 	struct Node {
-		T value;
+		K key;
+		V value;
 		Node* next;
-		Node(T val) : value(val), next(nullptr) {}
+		Node* nextGlobal;
+		Node(K k, V val) : key(k), value(val), next(nullptr), 
+			nextGlobal(nullptr) {}
 	};
-	template <typename T>
+	template <typename K, typename V>
 	class LinkedHashEntry {
 	private:
-		size_t length;
-		Node<T>* start;
+		Node<K,V>* beginEntry;
 	public:
-		LinkedHashEntry(T value) {
-			length = 1;
-			Node<T> *tmp = new Node<T>(value);
-			start = tmp;
+		LinkedHashEntry(K key, V value) {
+			beginEntry = new Node(key, value);
 		}
 	};
-	LinkedHashEntry** table;
-
+	LinkedHashEntry* *table;
+	size_t length;
+	Node<T>* begin;
+	Node<T>* end;
 public:
 	LinkedHashTable() {
 		table = new LinkedHashEntry*[SIZE];
+		current = nullptr;
+		length = 0;
+	}
+	void add(K key, V value) {
+		length++;
+		Node<K,V>* tmp = new Node(key, value);
+		end->nextGlobal = tmp;
+		end = tmp;
+
+	}
+	void remove() {
+
+	}
+	V contains(K elem) {
+
+	}
+	void makeEmpty() {
+
+	}
+	bool isEmpty() {
+
+	}
+	int hashCode(int(*func) (K), K elem) {
+		return func(elem);
 	}
 };
