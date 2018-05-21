@@ -14,34 +14,53 @@ private:
 	};
 	template <typename K, typename V>
 	class LinkedHashEntry {
-	private:
-		Node<K,V>* beginEntry;
 	public:
-		LinkedHashEntry(K key, V value) {
-			beginEntry = new Node(key, value);
+		LinkedHashEntry(Node* elem) {
+			beginEntry = elem;
 		}
+		void addEntry(Node* elem) {
+			Node<K, V>* tmp = beginEntry;
+			while (tmp->next != nullptr) {
+				tmp = tmp->next;
+			}
+			tmp->next = elem;
+		}
+		Node<K, V>* beginEntry;
 	};
+	int hashCode(const K& elem) {
+		return func(elem) % SIZE;
+	}
 	LinkedHashEntry* *table;
 	size_t length;
-	Node<T>* begin;
-	Node<T>* end;
+	Node<K,V>* begin;
+	int(*func) (const K&);
 public:
-	LinkedHashTable() {
+	LinkedHashTable(int(*f) (const K&)) {
 		table = new LinkedHashEntry*[SIZE];
 		current = nullptr;
 		length = 0;
+		func = f;
 	}
-	void add(K key, V value) {
+	void add(const K& key, const V& value) {
 		length++;
 		Node<K,V>* tmp = new Node(key, value);
 		end->nextGlobal = tmp;
 		end = tmp;
-
+		int hash = hashCode(key);
+		if (table[hash] == nullptr) {
+			table[hash] = new LinkedHashEntry(tmp);
+		}
+		else {
+			table[hash]->addEntry(tmp);
+		}
 	}
-	void remove() {
-
+	void remove(const K& elem) {
+		int hash = hashCode(elem);
+		if (table[hash] != nullptr) {
+			Node<K, V>* tmp = table[hash]->beginEntry;
+		}
 	}
-	V contains(K elem) {
+	V get(const K& elem) {
 
 	}
 	void makeEmpty() {
@@ -49,8 +68,5 @@ public:
 	}
 	bool isEmpty() {
 
-	}
-	int hashCode(int(*func) (K), K elem) {
-		return func(elem);
 	}
 };
