@@ -42,7 +42,7 @@ void BinaryTree::add(const char *way, int x)
 BinaryTree & BinaryTree::operator=(const BinaryTree &other)
 {
 	if (this == &other) {
-		return;
+		return *this;
 	}
 	clear();
 	root = copyNode(other.root);
@@ -58,6 +58,17 @@ BinaryTree & BinaryTree::operator=(BinaryTree && trash)
 	levels = trash.levels;
 	trash.root = nullptr;
 	trash.levels = 0;
+}
+
+void BinaryTree::printTree(const TreeElem *root, int tabs = 0)
+{
+	if (!root) { return; }
+	for (int i = 0; i < tabs; i++) {
+		std::cout << "\t";
+	}
+	std::cout << root->info << std::endl;
+	printTree(root->left, ++tabs);
+	printTree(root->right, ++tabs);
 }
 
 void BinaryTree::printTree()
@@ -133,17 +144,6 @@ bool BinaryTree::add2(TreeElem *& node, const char *way, int position, int x)
 		}
 	}
 	return false;
-}
-
-void BinaryTree::printTree(const TreeElem *root, int tabs = 0)
-{
-	if (!root) { return; }
-	for (int i = 0; i < tabs; i++) {
-		std::cout << "\t";
-	}
-	std::cout << root->info << std::endl;
-	printTree(root->left, ++tabs);
-	printTree(root->right, ++tabs);
 }
 
 void BinaryTree::clear(TreeElem *& node)

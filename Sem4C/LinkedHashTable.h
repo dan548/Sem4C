@@ -1,13 +1,13 @@
 #pragma once
 #include "stdafx.h"
 
-struct ValueNotFoundException {
+struct NoValueFoundException {
 	std::string message;
-	ValueNotFoundException() {
+	NoValueFoundException() {
 		message = "Value not found.";
 	}
 
-	ValueNotFoundException(const char* cMessage) {
+	NoValueFoundException(const char* cMessage) {
 		message = cMessage;
 	}
 };
@@ -139,7 +139,7 @@ public:
 						tmp2->next = tmp->next;
 					}
 				}
-				throw ValueNotFoundException();
+				throw NoValueFoundException();
 			}
 			if (tmp->prevGlobal == nullptr) {
 				begin = begin->nextGlobal;
@@ -157,7 +157,7 @@ public:
 			return valuePop;
 		}
 		else {
-			throw ValueNotFoundException();
+			throw NoValueFoundException();
 		}
 	}
 	V get(const K& elem) {
@@ -181,11 +181,11 @@ public:
 						return value;
 					}
 				}
-				throw ValueNotFoundException();
+				throw NoValueFoundException();
 			}
 		}
 		else {
-			throw ValueNotFoundException();
+			throw NoValueFoundException();
 		}
 	}
 	void makeEmpty() {
