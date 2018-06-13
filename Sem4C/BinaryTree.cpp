@@ -62,12 +62,14 @@ BinaryTree & BinaryTree::operator=(BinaryTree && trash)
 
 void BinaryTree::printTree(const TreeElem *root, int tabs = 0)
 {
+	int temp = tabs;
 	if (!root) { return; }
 	for (int i = 0; i < tabs; i++) {
 		std::cout << "\t";
 	}
 	std::cout << root->info << std::endl;
 	printTree(root->left, ++tabs);
+	tabs = temp;
 	printTree(root->right, ++tabs);
 }
 
@@ -84,8 +86,8 @@ void BinaryTree::clear()
 
 bool BinaryTree::isBinarySearchTree()
 {
-	return isBinarySearchTree(root->left, 0, root->info, root->info, 0) &&
-		isBinarySearchTree(root->right, 1, root->info, root->info, 0);
+	return isBinarySearchTree(root->left, 0, root->info, root->info, 1) &&
+		isBinarySearchTree(root->right, 1, root->info, root->info, 1);
 }
 
 int BinaryTree::getQuantityOfEvenElements()
@@ -119,27 +121,27 @@ std::vector<int> BinaryTree::find(int x)
 	return way;
 }
 
-bool BinaryTree::add2(TreeElem *& node, const char *way, int position, int x)
+bool BinaryTree::add2(TreeElem *& node, const char *way, int x, int position)
 {
 	if (position == strlen(way)) {
-		if (root == nullptr) {
-			root = new TreeElem(x);
+		if (node == nullptr) {
+			node = new TreeElem(x);
 		}
 		else {
-			root->info = x;
+			node->info = x;
 		}
 		return true;
 	}
-	if (root == nullptr) {
+	if (node == nullptr) {
 		throw InvalidWayInTreeException();
 	}
 	if (way[position] == '0') {
-		if (add2(root->left, way, x, ++position)) {
+		if (add2(node->left, way, x, ++position)) {
 			return true;
 		}
 	}
 	if (way[position] == '1') {
-		if (add2(root->right, way, x, ++position)) {
+		if (add2(node->right, way, x, ++position)) {
 			return true;
 		}
 	}
@@ -182,13 +184,13 @@ bool BinaryTree::isBinarySearchTree(TreeElem *node, bool side, int less, int mor
 		if (side) {
 			if (node->info >= less) {
 				return isBinarySearchTree(node->left, 0, less, node->info, 0) &&
-					isBinarySearchTree(node->right, 1, more, more, 1);
+					isBinarySearchTree(node->right, 1, node->info, node->info, 1);
 			}
 		}
 		else {
 			if (node->info < more) {
-				return isBinarySearchTree(node->left, 0, less, node->info, 1) &&
-					isBinarySearchTree(node->right, 1, more, more, 0);
+				return isBinarySearchTree(node->left, 0, node->info, node->info, 1) &&
+					isBinarySearchTree(node->right, 1, node->info, more, 0);
 			}
 		}
 	}
